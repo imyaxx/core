@@ -1,18 +1,31 @@
-import { candidateFixtures } from "./fixtures/candidates.js";
 import { evaluateCandidate } from "./evaluation/evaluateCandidate.js";
+import { candidateFixtures } from "./fixtures/candidates.js";
+
+function formatErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Unknown evaluation failure.";
+}
 
 async function runDemo(): Promise<void> {
   for (const candidate of candidateFixtures) {
-    const evaluation = await evaluateCandidate(candidate);
-
     console.log(`\n=== ${candidate.candidateId} | ${candidate.name} ===`);
-    console.dir(evaluation, { depth: null });
+
+    try {
+      const evaluation = await evaluateCandidate(candidate);
+
+      console.log(`Overall Score: ${evaluation.overallScore}`);
+      console.log(`Summary: ${evaluation.summary}`);
+      console.dir(evaluation, { depth: null });
+    } catch (error) {
+      console.error(`Evaluation failed: ${formatErrorMessage(error)}`);
+    }
   }
 }
 
 void runDemo().catch((error: unknown) => {
-  const message = error instanceof Error ? error.message : "Unknown demo failure.";
-
-  console.error(message);
+  console.error(`Demo failed: ${formatErrorMessage(error)}`);
   process.exitCode = 1;
 });
