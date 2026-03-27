@@ -1,6 +1,6 @@
 import { calculateOverallScore } from "../domain/calculateOverallScore.js";
 import { createFallbackModelEvaluation } from "../domain/create-fallback-model-evaluation.js";
-import { buildEvaluationFlags } from "../domain/evaluation-flags.js";
+import { buildEvaluationFlags } from "../domain/buildEvaluationFlags.js";
 import { createEvaluationPrompt } from "../prompts/createEvaluationPrompt.js";
 import { evaluationSystemPrompt } from "../prompts/evaluationSystemPrompt.js";
 import { candidateInputSchema, type CandidateInput } from "../schemas/candidateInput.js";
@@ -42,9 +42,9 @@ export async function evaluateCandidate(candidate: CandidateInput): Promise<Fina
 
   const overallScore = calculateOverallScore(modelEvaluation.scores);
   const flags = buildEvaluationFlags({
-    candidate: validatedCandidate,
-    modelEvaluation,
     overallScore,
+    confidence: modelEvaluation.confidence,
+    authenticityScore: modelEvaluation.scores.authenticity,
   });
 
   return finalEvaluationSchema.parse({
