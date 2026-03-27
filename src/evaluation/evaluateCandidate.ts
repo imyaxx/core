@@ -1,4 +1,4 @@
-import { calculateOverallScore } from "../domain/calculate-overall-score.js";
+import { calculateOverallScore } from "../domain/calculateOverallScore.js";
 import { createFallbackModelEvaluation } from "../domain/create-fallback-model-evaluation.js";
 import { buildEvaluationFlags } from "../domain/evaluation-flags.js";
 import { createEvaluationPrompt } from "../prompts/createEvaluationPrompt.js";
