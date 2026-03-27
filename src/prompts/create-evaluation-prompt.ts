@@ -1,4 +1,4 @@
-import type { CandidateInput } from "../schemas/candidate-input.js";
+import type { CandidateInput } from "../schemas/candidateInput.js";
 
 export function createEvaluationPrompt(candidate: CandidateInput): string {
   const candidatePayload = {

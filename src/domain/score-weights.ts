@@ -1,4 +1,4 @@
-import type { DimensionScores } from "../schemas/model-evaluation.js";
+import type { DimensionScores } from "../schemas/modelEvaluation.js";
 
 export const evaluationScoreWeights: Record<keyof DimensionScores, number> = {
   motivation: 0.22,

@@ -3,9 +3,9 @@ import { createFallbackModelEvaluation } from "../domain/create-fallback-model-e
 import { buildEvaluationFlags } from "../domain/evaluation-flags.js";
 import { createEvaluationPrompt } from "../prompts/create-evaluation-prompt.js";
 import { evaluationSystemPrompt } from "../prompts/evaluation-system-prompt.js";
-import { candidateInputSchema, type CandidateInput } from "../schemas/candidate-input.js";
-import { finalEvaluationSchema, type FinalEvaluation } from "../schemas/final-evaluation.js";
-import type { ModelEvaluation } from "../schemas/model-evaluation.js";
+import { candidateInputSchema, type CandidateInput } from "../schemas/candidateInput.js";
+import { finalEvaluationSchema, type FinalEvaluation } from "../schemas/finalEvaluation.js";
+import type { ModelRawEvaluation } from "../schemas/modelEvaluation.js";
 import { requestModelEvaluation } from "../services/request-model-evaluation.js";
 import { parseModelEvaluation } from "../parsing/parseModelResponse.js";
 
@@ -27,7 +27,7 @@ export async function evaluateCandidate(candidate: CandidateInput): Promise<Fina
   const validatedCandidate = candidateValidation.data;
   const userPrompt = createEvaluationPrompt(validatedCandidate);
 
-  let modelEvaluation: ModelEvaluation;
+  let modelEvaluation: ModelRawEvaluation;
 
   try {
     const rawModelResponse = await requestModelEvaluation({

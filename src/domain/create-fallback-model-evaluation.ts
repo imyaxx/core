@@ -1,4 +1,4 @@
-import { modelEvaluationSchema, type ModelEvaluation } from "../schemas/model-evaluation.js";
+import { modelRawEvaluationSchema, type ModelRawEvaluation } from "../schemas/modelEvaluation.js";
 
 function getFallbackConcern(error: unknown): string {
   if (error instanceof Error && error.message.trim().length > 0) {
@@ -8,10 +8,10 @@ function getFallbackConcern(error: unknown): string {
   return "Automatic evaluation failed before a reliable model assessment was produced.";
 }
 
-export function createFallbackModelEvaluation(error: unknown): ModelEvaluation {
+export function createFallbackModelEvaluation(error: unknown): ModelRawEvaluation {
   const fallbackReasoning = "Automatic evaluation was unavailable, so this dimension requires human review.";
 
-  return modelEvaluationSchema.parse({
+  return modelRawEvaluationSchema.parse({
     scores: {
       motivation: 0,
       leadership: 0,

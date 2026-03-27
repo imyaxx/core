@@ -1,6 +1,6 @@
-import type { CandidateInput } from "../schemas/candidate-input.js";
-import type { EvaluationFlags } from "../schemas/final-evaluation.js";
-import type { ModelEvaluation } from "../schemas/model-evaluation.js";
+import type { CandidateInput } from "../schemas/candidateInput.js";
+import type { EvaluationFlags } from "../schemas/finalEvaluation.js";
+import type { ModelRawEvaluation } from "../schemas/modelEvaluation.js";
 
 export const evaluationFlagThresholds = {
   lowDataMinimumWordCount: 120,
@@ -31,7 +31,7 @@ function getEvidenceTexts(candidate: CandidateInput): string[] {
 
 export function buildEvaluationFlags(input: {
   candidate: CandidateInput;
-  modelEvaluation: ModelEvaluation;
+  modelEvaluation: ModelRawEvaluation;
   overallScore: number;
 }): EvaluationFlags {
   const evidenceTexts = getEvidenceTexts(input.candidate);

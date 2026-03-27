@@ -1,23 +1,9 @@
 import { z } from "zod";
 
-function roundToSingleDecimal(value: number): number {
-  return Math.round(value * 10) / 10;
-}
-
-function roundToTwoDecimals(value: number): number {
-  return Math.round(value * 100) / 100;
-}
-
-function deduplicateItems(values: string[]): string[] {
-  return Array.from(new Set(values));
-}
-
-const dimensionScoreSchema = z.number().finite().min(0).max(10).transform(roundToSingleDecimal);
+const dimensionScoreSchema = z.number().finite().min(0).max(10);
 const reasoningTextSchema = z.string().trim().min(1);
-const insightListSchema = z
-  .array(z.string().trim().min(1))
-  .transform((values) => deduplicateItems(values));
-const confidenceSchema = z.number().finite().min(0).max(1).transform(roundToTwoDecimals);
+const insightListSchema = z.array(z.string().trim().min(1));
+const confidenceSchema = z.number().finite().min(0).max(1);
 
 export const dimensionScoresSchema = z
   .object({
@@ -41,7 +27,7 @@ export const dimensionReasoningSchema = z
   })
   .strict();
 
-export const modelEvaluationSchema = z
+export const modelRawEvaluationSchema = z
   .object({
     scores: dimensionScoresSchema,
     reasoning: dimensionReasoningSchema,
@@ -54,4 +40,4 @@ export const modelEvaluationSchema = z
 
 export type DimensionScores = z.infer<typeof dimensionScoresSchema>;
 export type DimensionReasoning = z.infer<typeof dimensionReasoningSchema>;
-export type ModelEvaluation = z.infer<typeof modelEvaluationSchema>;
+export type ModelRawEvaluation = z.infer<typeof modelRawEvaluationSchema>;

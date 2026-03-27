@@ -1,4 +1,4 @@
-import type { DimensionScores } from "../schemas/model-evaluation.js";
+import type { DimensionScores } from "../schemas/modelEvaluation.js";
 
 import { evaluationScoreWeights } from "./score-weights.js";
 

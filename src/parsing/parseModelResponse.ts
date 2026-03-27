@@ -1,4 +1,4 @@
-import { modelEvaluationSchema, type ModelEvaluation } from "../schemas/model-evaluation.js";
+import { modelRawEvaluationSchema, type ModelRawEvaluation } from "../schemas/modelEvaluation.js";
 
 function unwrapJsonCodeFence(rawResponse: string): string {
   const trimmedResponse = rawResponse.trim();
@@ -13,7 +13,7 @@ function unwrapJsonCodeFence(rawResponse: string): string {
     .trim();
 }
 
-export function parseModelEvaluation(rawResponse: string): ModelEvaluation {
+export function parseModelEvaluation(rawResponse: string): ModelRawEvaluation {
   const normalizedResponse = unwrapJsonCodeFence(rawResponse);
 
   let parsedResponse: unknown;
@@ -26,7 +26,7 @@ export function parseModelEvaluation(rawResponse: string): ModelEvaluation {
     });
   }
 
-  const validationResult = modelEvaluationSchema.safeParse(parsedResponse);
+  const validationResult = modelRawEvaluationSchema.safeParse(parsedResponse);
 
   if (!validationResult.success) {
     const issueList = validationResult.error.issues
