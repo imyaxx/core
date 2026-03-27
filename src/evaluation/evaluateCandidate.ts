@@ -6,7 +6,7 @@ import { evaluationSystemPrompt } from "../prompts/evaluationSystemPrompt.js";
 import { candidateInputSchema, type CandidateInput } from "../schemas/candidateInput.js";
 import { finalEvaluationSchema, type FinalEvaluation } from "../schemas/finalEvaluation.js";
 import type { ModelRawEvaluation } from "../schemas/modelEvaluation.js";
-import { requestModelEvaluation } from "../services/request-model-evaluation.js";
+import { requestModelEvaluation } from "../services/requestModelEvaluation.js";
 import { parseModelEvaluation } from "../parsing/parseModelResponse.js";
 
 function formatCandidateValidationError(error: string): string {
