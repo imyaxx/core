@@ -1,4 +1,4 @@
-export { evaluateCandidate } from "./evaluate-candidate.js";
+export { evaluateCandidate } from "./evaluation/evaluateCandidate.js";
 export type { CandidateInput, ShortAnswer } from "./schemas/candidate-input.js";
 export type { FinalEvaluation, EvaluationFlags } from "./schemas/final-evaluation.js";
 export type {

@@ -1,5 +1,5 @@
 import { candidateFixtures } from "./fixtures/candidates.js";
-import { evaluateCandidate } from "./evaluate-candidate.js";
+import { evaluateCandidate } from "./evaluation/evaluateCandidate.js";
 
 async function runDemo(): Promise<void> {
   for (const candidate of candidateFixtures) {

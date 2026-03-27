@@ -1,13 +1,13 @@
-import { calculateOverallScore } from "./domain/calculate-overall-score.js";
-import { createFallbackModelEvaluation } from "./domain/create-fallback-model-evaluation.js";
-import { buildEvaluationFlags } from "./domain/evaluation-flags.js";
-import { createEvaluationPrompt } from "./prompts/create-evaluation-prompt.js";
-import { evaluationSystemPrompt } from "./prompts/evaluation-system-prompt.js";
-import { candidateInputSchema, type CandidateInput } from "./schemas/candidate-input.js";
-import { finalEvaluationSchema, type FinalEvaluation } from "./schemas/final-evaluation.js";
-import type { ModelEvaluation } from "./schemas/model-evaluation.js";
-import { requestModelEvaluation } from "./services/request-model-evaluation.js";
-import { parseModelEvaluation } from "./utils/parse-model-evaluation.js";
+import { calculateOverallScore } from "../domain/calculate-overall-score.js";
+import { createFallbackModelEvaluation } from "../domain/create-fallback-model-evaluation.js";
+import { buildEvaluationFlags } from "../domain/evaluation-flags.js";
+import { createEvaluationPrompt } from "../prompts/create-evaluation-prompt.js";
+import { evaluationSystemPrompt } from "../prompts/evaluation-system-prompt.js";
+import { candidateInputSchema, type CandidateInput } from "../schemas/candidate-input.js";
+import { finalEvaluationSchema, type FinalEvaluation } from "../schemas/final-evaluation.js";
+import type { ModelEvaluation } from "../schemas/model-evaluation.js";
+import { requestModelEvaluation } from "../services/request-model-evaluation.js";
+import { parseModelEvaluation } from "../parsing/parseModelResponse.js";
 
 function formatCandidateValidationError(error: string): string {
   return `Candidate input validation failed. ${error}`;
