@@ -1,5 +1,8 @@
 import { modelRawEvaluationSchema, type ModelRawEvaluation } from "../schemas/modelEvaluation.js";
 
+// Model output is treated as untrusted input until it is parsed and
+// validated against the expected schema.
+
 export function parseModelResponse(rawResponse: string): ModelRawEvaluation {
   if (!rawResponse || rawResponse.trim().length === 0) {
     throw new Error("Model response is empty.");

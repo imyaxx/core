@@ -1,3 +1,6 @@
+// The model is instructed to return strict JSON and avoid unsupported
+// assumptions because downstream layers depend on predictable structure.
+
 export const evaluationSystemPrompt = `
 You are an admissions evaluation assistant.
 

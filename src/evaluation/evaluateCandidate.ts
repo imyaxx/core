@@ -13,6 +13,9 @@ import {
 } from "../schemas/finalEvaluation.js";
 import { requestModelEvaluation } from "../services/requestModelEvaluation.js";
 
+// This function coordinates the evaluation pipeline end-to-end while
+// keeping prompting, parsing, scoring, and flagging in separate layers.
+
 export async function evaluateCandidate(
   candidate: CandidateInput,
 ): Promise<FinalEvaluation> {

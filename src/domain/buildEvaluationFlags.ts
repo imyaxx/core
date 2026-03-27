@@ -1,5 +1,8 @@
 import type { EvaluationFlags } from "../schemas/finalEvaluation.js";
 
+// Flags are intentionally deterministic and conservative.
+// They are used to support reviewer attention, not to make final decisions.
+
 const EVALUATION_FLAG_THRESHOLDS = {
   highPotentialMinimumOverallScore: 8,
   lowConfidenceMaximumValue: 0.45,

@@ -1,5 +1,9 @@
 import type { DimensionScores } from "../schemas/modelEvaluation.js";
 
+// Motivation and growthPotential are weighted slightly higher because
+// they better reflect long-term fit and development potential in an
+// admissions context.
+
 const SCORE_WEIGHTS: Readonly<Record<keyof DimensionScores, number>> = {
   motivation: 0.22,
   leadership: 0.16,
@@ -8,6 +12,9 @@ const SCORE_WEIGHTS: Readonly<Record<keyof DimensionScores, number>> = {
   communication: 0.12,
   authenticity: 0.12,
 };
+
+// Floating-point arithmetic can introduce tiny precision errors, so
+// weight validation uses a tolerance instead of strict equality.
 
 const WEIGHT_SUM_TOLERANCE = 0.0001;
 

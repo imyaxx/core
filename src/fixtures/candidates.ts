@@ -1,5 +1,7 @@
 import type { CandidateInput } from "../schemas/candidateInput.js";
 
+// Synthetic fixture candidates used for demo and manual evaluation checks.
+
 export const strongCandidate: CandidateInput = {
   candidateId: "candidate-strong",
   name: "Amina S.",
