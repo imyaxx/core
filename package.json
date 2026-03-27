@@ -1,0 +1,20 @@
+{
+  "name": "admissions-evaluation-engine",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "demo": "npm run build && node dist/demo.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "openai": "^6.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  }
+}
