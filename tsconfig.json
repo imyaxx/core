@@ -14,8 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-    "verbatimModuleSyntax": true,
-    "declaration": true
+    "verbatimModuleSyntax": true
   },
   "include": [
     "src/**/*.ts"
