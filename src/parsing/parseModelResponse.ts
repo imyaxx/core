@@ -1,25 +1,14 @@
 import { modelRawEvaluationSchema, type ModelRawEvaluation } from "../schemas/modelEvaluation.js";
 
-function unwrapJsonCodeFence(rawResponse: string): string {
-  const trimmedResponse = rawResponse.trim();
-
-  if (!trimmedResponse.startsWith("```")) {
-    return trimmedResponse;
+export function parseModelResponse(rawResponse: string): ModelRawEvaluation {
+  if (!rawResponse || rawResponse.trim().length === 0) {
+    throw new Error("Model response is empty.");
   }
-
-  return trimmedResponse
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/\s*```$/i, "")
-    .trim();
-}
-
-export function parseModelEvaluation(rawResponse: string): ModelRawEvaluation {
-  const normalizedResponse = unwrapJsonCodeFence(rawResponse);
 
   let parsedResponse: unknown;
 
   try {
-    parsedResponse = JSON.parse(normalizedResponse);
+    parsedResponse = JSON.parse(rawResponse);
   } catch (error) {
     throw new Error("Model response was not valid JSON.", {
       cause: error,
@@ -33,7 +22,9 @@ export function parseModelEvaluation(rawResponse: string): ModelRawEvaluation {
       .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
       .join("; ");
 
-    throw new Error(`Model response failed schema validation. ${issueList}`);
+    throw new Error(
+      `Model response does not match expected evaluation schema. ${issueList}`,
+    );
   }
 
   return validationResult.data;

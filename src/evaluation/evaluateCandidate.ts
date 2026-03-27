@@ -7,7 +7,7 @@ import { candidateInputSchema, type CandidateInput } from "../schemas/candidateI
 import { finalEvaluationSchema, type FinalEvaluation } from "../schemas/finalEvaluation.js";
 import type { ModelRawEvaluation } from "../schemas/modelEvaluation.js";
 import { requestModelEvaluation } from "../services/requestModelEvaluation.js";
-import { parseModelEvaluation } from "../parsing/parseModelResponse.js";
+import { parseModelResponse } from "../parsing/parseModelResponse.js";
 
 function formatCandidateValidationError(error: string): string {
   return `Candidate input validation failed. ${error}`;
@@ -35,7 +35,7 @@ export async function evaluateCandidate(candidate: CandidateInput): Promise<Fina
       userPrompt,
     });
 
-    modelEvaluation = parseModelEvaluation(rawModelResponse);
+    modelEvaluation = parseModelResponse(rawModelResponse);
   } catch (error) {
     modelEvaluation = createFallbackModelEvaluation(error);
   }
