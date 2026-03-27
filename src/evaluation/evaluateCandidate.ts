@@ -1,8 +1,8 @@
 import { calculateOverallScore } from "../domain/calculate-overall-score.js";
 import { createFallbackModelEvaluation } from "../domain/create-fallback-model-evaluation.js";
 import { buildEvaluationFlags } from "../domain/evaluation-flags.js";
-import { createEvaluationPrompt } from "../prompts/create-evaluation-prompt.js";
-import { evaluationSystemPrompt } from "../prompts/evaluation-system-prompt.js";
+import { createEvaluationPrompt } from "../prompts/createEvaluationPrompt.js";
+import { evaluationSystemPrompt } from "../prompts/evaluationSystemPrompt.js";
 import { candidateInputSchema, type CandidateInput } from "../schemas/candidateInput.js";
 import { finalEvaluationSchema, type FinalEvaluation } from "../schemas/finalEvaluation.js";
 import type { ModelRawEvaluation } from "../schemas/modelEvaluation.js";
