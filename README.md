@@ -1,140 +1,204 @@
 # Admissions Evaluation Engine
 
-An AI-powered admissions evaluation engine for essays and short answers. It transforms unstructured candidate submissions into a structured, explainable evaluation with scores, reasoning, summary insights, confidence, and review flags.
+AI-powered evaluation engine for structured assessment of candidate essays and short answers.
 
-This system is designed for human-in-the-loop admissions workflows. It does not make autonomous decisions. Instead, it supports reviewers with a consistent, transparent first-pass evaluation.
+Transforms unstructured input into a consistent, explainable evaluation including:
+- dimension-level scoring
+- summary reasoning
+- positives and concerns
+- confidence signal
+- review flags
 
----
-
-## Project Overview
-
-Admissions teams often need to evaluate large numbers of candidates quickly while maintaining fairness, consistency, and explainability.
-
-This project addresses that challenge by combining:
-- structured prompting for stable model outputs
-- schema validation for reliability
-- deterministic scoring for consistency
-- explicit review flags for human oversight
-
-The result is a minimal, explainable AI evaluation engine that is easy to understand, test, and extend.
+Designed for human-in-the-loop admissions workflows.  
+This system does not make decisions — it supports them.
 
 ---
 
-## Why This Matters
+## Overview
 
-This system helps admissions teams:
+This engine provides a deterministic and explainable layer on top of LLM output.
 
-- reduce inconsistency across reviewers  
-- identify high-potential candidates faster  
-- surface weak or generic applications for deeper review  
-- maintain transparency in decision-making  
-- support human judgment rather than replace it  
+It combines:
+- structured prompting
+- strict schema validation
+- deterministic aggregation logic
+- explicit review signals
 
----
-
-## Key Features
-
-- Evaluates candidate essays and short answers across six dimensions:
-  - motivation
-  - leadership
-  - growthPotential
-  - initiative
-  - communication
-  - authenticity
-- Produces structured reasoning for each dimension
-- Returns positives, concerns, summary, and confidence
-- Computes overallScore deterministically in code
-- Builds explicit review flags (highPotential, needsReview, lowData)
-- Validates all model output using Zod schemas
-- Clean separation of concerns across architecture layers
+The result is a stable and inspectable evaluation pipeline suitable for real-world usage.
 
 ---
 
-## Architecture
+## Repositories
 
-The codebase is intentionally modular and minimal:
+- Core (this repo): https://github.com/imyaxx/core  
+- Server API: https://github.com/imyaxx/server  
+- Web client: https://github.com/imyaxx/web  
 
-src/
-  prompts/        → prompt construction
-  services/       → OpenAI interaction
-  parsing/        → response parsing & validation
-  domain/         → scoring & flags logic
-  schemas/        → data contracts (Zod + TS)
-  evaluation/     → orchestration
-  fixtures/       → demo candidates
+---
 
-- src/prompts — prompt construction
-- src/services — OpenAI interaction
-- src/parsing — parsing and validation
-- src/domain — scoring and flags logic
-- src/schemas — contracts (Zod + TS)
-- src/evaluation — orchestration
-- src/fixtures — demo data
+## Responsibilities
+
+- generate structured evaluation via LLM
+- validate model output (Zod)
+- compute deterministic scores
+- construct review signals (flags)
+- return normalized evaluation result
+
+No transport, UI, or API concerns are handled here.
+
+---
+
+## Evaluation Dimensions
+
+Each candidate is evaluated across six dimensions:
+
+- motivation
+- leadership
+- growthPotential
+- initiative
+- communication
+- authenticity
+
+Each dimension includes:
+- score (numeric)
+- reasoning (text)
+
+---
+
+## Output Structure
+
+```json
+{
+  "overallScore": 8.1,
+  "summary": "Clear motivation with strong communication ability.",
+  "positives": ["Strong initiative", "Clear goals"],
+  "concerns": ["Limited leadership depth"],
+  "confidence": 0.92,
+  "flags": {
+    "highPotential": true,
+    "needsReview": false,
+    "lowData": false
+  },
+  "scores": {
+    "motivation": 9,
+    "leadership": 7,
+    "growthPotential": 8,
+    "initiative": 9,
+    "communication": 8,
+    "authenticity": 8
+  }
+}
+```
 
 ---
 
 ## How It Works
 
-1. Candidate input is validated
-2. Prompt is constructed
-3. Model generates JSON output
-4. Response is parsed and validated
-5. Scores are aggregated into overallScore
-6. Flags are computed
-7. Final structured result is returned
+1. Input validation  
+2. Prompt construction  
+3. LLM call (OpenAI)  
+4. JSON parsing + schema validation  
+5. Score aggregation  
+6. Flag computation  
+7. Structured result returned  
+
+---
+
+## Architecture
+
+```
+src/
+  prompts/        → prompt construction
+  services/       → OpenAI client
+  parsing/        → response parsing & validation
+  domain/         → scoring + flags logic
+  schemas/        → Zod contracts
+  evaluation/     → orchestration pipeline
+  fixtures/       → demo data
+```
+
+---
+
+## Getting Started
+
+### 1. Install dependencies
+
+```bash
+cd core
+npm install
+```
+
+---
+
+### 2. Configure environment
+
+Create `.env`:
+
+```env
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_MODEL=gpt-4o-mini
+```
+
+---
+
+### 3. Run demo
+
+```bash
+npm run demo
+```
+
+---
+
+## Integration
+
+This package is consumed by the server:
+
+```
+server → core → OpenAI
+```
+
+- server handles validation + routing  
+- core handles evaluation logic  
+- web consumes server API  
+
+---
+
+## Design Principles
+
+- deterministic outputs where possible  
+- strict schema validation  
+- separation of concerns  
+- explainability over raw accuracy  
+- composable pipeline  
 
 ---
 
 ## Baseline Comparison
 
-To validate effectiveness, the AI system is compared against a simple deterministic baseline.
+A simple deterministic baseline is used for comparison:
 
-Baseline approach:
+Baseline signals:
 - essay length
-- number of short answers
-- keyword presence (e.g. "team", "leader", "motivated")
+- number of responses
+- keyword presence
 
 Example:
 
+```
 Strong → Baseline: 6.2 | AI: 8.12  
 Average → Baseline: 5.9 | AI: 5.88  
 Weak → Baseline: 5.8 | AI: 3.94  
+```
 
-The AI produces more calibrated results, especially for weak candidates.
-
----
-
-## Demo Scenario
-
-The demo evaluates:
-- strong candidate
-- average candidate
-- weak candidate
-
-This shows how the system differentiates and explains decisions.
-
----
-
-## How To Run
-
-npm install  
-cp .env.example .env  
-npm run demo  
-
----
-
-## Environment Variables
-
-OPENAI_API_KEY  
-OPENAI_MODEL  
+AI evaluation provides better separation, especially for weak candidates.
 
 ---
 
 ## Limitations
 
-- depends on model behavior  
-- no external verification of claims  
-- confidence is model-generated  
+- dependent on LLM behavior  
+- no external fact verification  
+- confidence is model-derived  
 - demo uses synthetic data  
 
 ---
@@ -143,14 +207,30 @@ OPENAI_MODEL
 
 - not an autonomous decision system  
 - no sensitive attributes used  
-- explainable reasoning  
-- human decision required  
+- transparent reasoning output  
+- requires human oversight  
 
 ---
 
 ## Future Improvements
 
-- better calibration  
-- UI dashboard  
-- resume + interview support  
-- evaluation benchmarking  
+- score calibration improvements  
+- evaluation benchmarking dataset  
+- multi-modal input (CV, interview)  
+- batch evaluation pipeline  
+- UI tooling for reviewers  
+
+---
+
+## Environment Variables
+
+| Variable           | Description                         |
+|------------------|-------------------------------------|
+| OPENAI_API_KEY   | API key for model access            |
+| OPENAI_MODEL     | Model used for evaluation           |
+
+---
+
+## Status
+
+Production-ready evaluation engine for structured admissions workflows.
